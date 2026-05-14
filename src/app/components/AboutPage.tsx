@@ -159,12 +159,11 @@ export function AboutPage() {
 
           
 
-            {/* CV Download */}
+            {/* Click for CV */}
             <div className="mt-[8px]">
-              <a
-                href="/cv.pdf"
-                download
-                className="no-underline transition-opacity hover:opacity-60"
+              <span
+                className="no-underline transition-opacity hover:opacity-60 cursor-pointer"
+                onClick={() => setCvExpanded(!cvExpanded)}
                 style={{
                   ...fontBase,
                   fontSize: "13px",
@@ -175,11 +174,11 @@ export function AboutPage() {
                   gap: "6px",
                 }}
               >
-                <span>↓</span>
+                <span>←</span>
                 <span style={{ borderBottom: "1px solid black" }}>
-                  CV download
+                  Click for CV
                 </span>
-              </a>
+              </span>
             </div>
           </div>
 
@@ -402,12 +401,11 @@ export function AboutPage() {
               My mission is to amplify these messages, allowing a wider audience to resonate with and immerse themselves in the stories.
             </p>
 
-            {/* CV Download */}
+            {/* Click for CV */}
             <div className="mt-[8px]">
-              <a
-                href="/cv.pdf"
-                download
-                className="no-underline transition-opacity hover:opacity-60"
+              <span
+                className="no-underline transition-opacity hover:opacity-60 cursor-pointer"
+                onClick={() => setExpanded(!expanded)}
                 style={{
                   ...fontBase,
                   fontSize: "13px",
@@ -420,9 +418,9 @@ export function AboutPage() {
               >
                 <span>←</span>
                 <span style={{ borderBottom: "1px solid black" }}>
-                  CV download
+                  Click for CV
                 </span>
-              </a>
+              </span>
             </div>
 
             {/* Contact note */}
