@@ -157,37 +157,13 @@ export function AboutPage() {
               My mission is to amplify these messages, allowing a wider audience to resonate with and immerse themselves in the stories.
             </p>
 
-          
-
-            {/* Click for CV */}
-            <div className="mt-[8px]">
-              <span
-                className="cursor-pointer"
-                onClick={() => setCvExpanded(!cvExpanded)}
-                onMouseEnter={(e) => e.currentTarget.style.color = "#00F77B"}
-                onMouseLeave={(e) => e.currentTarget.style.color = cvExpanded ? "#00F77B" : "black"}
-                style={{
-                  ...fontBase,
-                  fontSize: "13px",
-                  lineHeight: "20px",
-                  color: cvExpanded ? "#00F77B" : "black",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  transition: "color 0.2s ease",
-                }}
-              >
-                <span>←</span>
-                <span>Click for CV</span>
-              </span>
-            </div>
           </div>
 
           {/* ── Horizontal divider line (replaces the vertical 1.8px line) ── */}
           <div
             style={{
               height: "1.8px",
-              backgroundColor: cvExpanded ? "#00F77B" : "black",
+              backgroundColor: "black",
               marginTop: "24px",
               transition: "background-color 0.25s ease",
             }}
@@ -211,8 +187,7 @@ export function AboutPage() {
                   fontSize: "16px",
                   fontWeight: 500,
                   lineHeight: "24px",
-                  color: cvExpanded ? "#00F77B" : "black",
-                  transition: "color 0.25s ease",
+                  color: "black",
                 }}
               >
                 CV
@@ -223,8 +198,7 @@ export function AboutPage() {
                   fontSize: "16px",
                   fontWeight: 400,
                   lineHeight: "24px",
-                  color: cvExpanded ? "#00F77B" : "black",
-                  transition: "color 0.25s ease",
+                  color: "black",
                 }}
               >
                 (Tab here to {cvExpanded ? "close" : "open"})
@@ -256,7 +230,7 @@ export function AboutPage() {
             <div
               style={{
                 height: "1.8px",
-                backgroundColor: "#00F77B",
+                backgroundColor: "black",
                 marginBottom: "4px",
               }}
             />
