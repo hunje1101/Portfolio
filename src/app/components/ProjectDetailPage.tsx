@@ -359,11 +359,12 @@ export function ProjectDetailPage({ project, onBack }: ProjectDetailPageProps) {
             <h1
               style={{
                 fontFamily: "'Switzer', sans-serif",
-                fontSize: "52px",
+                fontSize: isMobile ? "32px" : "52px",
                 fontWeight: 500,
                 letterSpacing: "-0.13px",
                 color: "#111",
                 margin: 0,
+                marginBottom: isMobile ? "20px" : "0",
                 lineHeight: 1.05,
                 wordBreak: "break-word",
               }}
