@@ -93,7 +93,18 @@ export default function App() {
       }}
     >
       {/* Sidebar (handles its own mobile/desktop rendering) */}
-      <Sidebar currentPage={currentPage} onNavigate={setCurrentPage} />
+      <Sidebar
+        currentPage={currentPage}
+        onNavigate={(page) => {
+          if (page === currentPage) {
+            if (currentProject) {
+              setCurrentProject(null);
+            }
+          } else {
+            setCurrentPage(page);
+          }
+        }}
+      />
 
       {/* Main Content */}
       <main
