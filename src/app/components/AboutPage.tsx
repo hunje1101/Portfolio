@@ -162,22 +162,23 @@ export function AboutPage() {
             {/* Click for CV */}
             <div className="mt-[8px]">
               <span
-                className="no-underline transition-opacity hover:opacity-60 cursor-pointer"
+                className="cursor-pointer"
                 onClick={() => setCvExpanded(!cvExpanded)}
+                onMouseEnter={(e) => e.currentTarget.style.color = "#00F77B"}
+                onMouseLeave={(e) => e.currentTarget.style.color = cvExpanded ? "#00F77B" : "black"}
                 style={{
                   ...fontBase,
                   fontSize: "13px",
                   lineHeight: "20px",
-                  color: "black",
+                  color: cvExpanded ? "#00F77B" : "black",
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "6px",
+                  transition: "color 0.2s ease",
                 }}
               >
                 <span>←</span>
-                <span style={{ borderBottom: "1px solid black" }}>
-                  Click for CV
-                </span>
+                <span>Click for CV</span>
               </span>
             </div>
           </div>
@@ -404,22 +405,23 @@ export function AboutPage() {
             {/* Click for CV */}
             <div className="mt-[8px]">
               <span
-                className="no-underline transition-opacity hover:opacity-60 cursor-pointer"
+                className="cursor-pointer"
                 onClick={() => setExpanded(!expanded)}
+                onMouseEnter={(e) => e.currentTarget.style.color = "#00F77B"}
+                onMouseLeave={(e) => e.currentTarget.style.color = expanded ? "#00F77B" : "black"}
                 style={{
                   ...fontBase,
                   fontSize: "13px",
                   lineHeight: "20px",
-                  color: "black",
+                  color: expanded ? "#00F77B" : "black",
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "6px",
+                  transition: "color 0.2s ease",
                 }}
               >
                 <span>←</span>
-                <span style={{ borderBottom: "1px solid black" }}>
-                  Click for CV
-                </span>
+                <span>Click for CV</span>
               </span>
             </div>
 
