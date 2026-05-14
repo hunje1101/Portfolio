@@ -245,8 +245,8 @@ export function ProjectCard({ year, projectName, type, tags, image, award = fals
         {/* Flip container */}
         <div
           className="w-full relative"
-          style={{ aspectRatio: imgRatio, borderRadius: "2px", overflow: "hidden", cursor: onProjectClick ? "pointer" : wip ? "pointer" : "default" }}
-          onClick={wip ? () => setWipTapped((v) => !v) : onProjectClick}
+          style={{ aspectRatio: imgRatio, borderRadius: "2px", overflow: "hidden", cursor: onProjectClick ? "pointer" : "default" }}
+          onClick={wip ? undefined : onProjectClick}
         >
           {isIdle ? (
             /* Home page — show image directly, no 3D flip */
@@ -293,29 +293,24 @@ export function ProjectCard({ year, projectName, type, tags, image, award = fals
             </div>
           )}
 
-          {/* WIP overlay — 30% black dim + tap to show text */}
+          {/* WIP overlay — dim + always show text, block clicks */}
           {wip && (
             <div
               className="absolute inset-0 flex items-center justify-center"
               style={{ backgroundColor: "rgba(0,0,0,0.3)" }}
             >
-              {wipTapped && (
-                <span
-                  style={{
-                    fontFamily: "'Switzer', sans-serif",
-                    fontSize: "18px",
-                    fontWeight: 600,
-                    letterSpacing: "0.08em",
-                    color: "white",
-                    textAlign: "center",
-                    padding: "6px 14px",
-                    backgroundColor: "rgba(0,0,0,0.5)",
-                    borderRadius: "4px",
-                  }}
-                >
-                  WORK IN PROGRESS
-                </span>
-              )}
+              <span
+                style={{
+                  fontFamily: "'Switzer', sans-serif",
+                  fontSize: "18px",
+                  fontWeight: 600,
+                  letterSpacing: "0.08em",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                WORK IN PROGRESS
+              </span>
             </div>
           )}
         </div>
