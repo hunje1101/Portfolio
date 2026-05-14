@@ -297,7 +297,7 @@ export function ProjectCard({ year, projectName, type, tags, image, award = fals
           {wip && (
             <div
               className="absolute inset-0 flex items-center justify-center"
-              style={{ backgroundColor: "rgba(0,0,0,0.3)" }}
+              style={{ backgroundColor: "rgba(0,0,0,0.3)", zIndex: 20 }}
             >
               <span
                 style={{
