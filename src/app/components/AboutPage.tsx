@@ -159,13 +159,11 @@ export function AboutPage() {
 
           </div>
 
-          {/* ── Horizontal divider line (replaces the vertical 1.8px line) ── */}
+          {/* ── Horizontal divider line ── */}
           <div
             style={{
-              height: "1.8px",
-              backgroundColor: "black",
               marginTop: "24px",
-              transition: "background-color 0.25s ease",
+              borderBottom: "1px solid black",
             }}
           />
 
@@ -175,7 +173,7 @@ export function AboutPage() {
             style={{
               marginTop: "12px",
               paddingBottom: "12px",
-              borderBottom: cvExpanded ? "none" : "1.8px solid black",
+              borderBottom: cvExpanded ? "none" : "1px solid black",
               transition: "border-color 0.25s ease",
             }}
             onClick={() => setCvExpanded(!cvExpanded)}
@@ -229,9 +227,8 @@ export function AboutPage() {
             {/* Bottom line — appears at end of tables when expanded */}
             <div
               style={{
-                height: "1.8px",
-                backgroundColor: "black",
                 marginBottom: "4px",
+                borderBottom: "1px solid black",
               }}
             />
           </div>
