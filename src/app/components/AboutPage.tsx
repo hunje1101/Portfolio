@@ -163,7 +163,7 @@ export function AboutPage() {
           <div
             style={{
               marginTop: "24px",
-              borderBottom: "1px solid black",
+              borderBottom: "1.2px solid black",
             }}
           />
 
@@ -228,7 +228,7 @@ export function AboutPage() {
             <div
               style={{
                 marginBottom: "4px",
-                borderBottom: "1px solid black",
+                borderBottom: "1.2px solid black",
               }}
             />
           </div>
