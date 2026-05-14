@@ -310,6 +310,7 @@ export default function App() {
                   flipDelay={index * 50}
                   activeFilter={activeFilter}
                   isMobile={true}
+                  onProjectClick={(project.wip || project.hidden) ? undefined : () => setCurrentProject(project)}
                 />
               ))}
             </div>

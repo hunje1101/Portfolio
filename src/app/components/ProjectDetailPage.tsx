@@ -354,44 +354,48 @@ export function ProjectDetailPage({ project, onBack }: ProjectDetailPageProps) {
           {/* Top spacer */}
           <div style={{ height: "12px" }} />
 
-          {/* Project title */}
-          <h1
-            style={{
-              fontFamily: "'Switzer', sans-serif",
-              fontSize: "52px",
-              fontWeight: 500,
-              letterSpacing: "-0.13px",
-              color: "#111",
-              margin: 0,
-              lineHeight: 1.05,
-              wordBreak: "break-word",
-            }}
-          >
-            {project.projectName}
-          </h1>
+          {/* Project title — hide for hidden projects */}
+          {!project.hidden && (
+            <h1
+              style={{
+                fontFamily: "'Switzer', sans-serif",
+                fontSize: "52px",
+                fontWeight: 500,
+                letterSpacing: "-0.13px",
+                color: "#111",
+                margin: 0,
+                lineHeight: 1.05,
+                wordBreak: "break-word",
+              }}
+            >
+              {project.projectName}
+            </h1>
+          )}
 
-          {/* Overview toggle button — desktop only */}
-          <button
-            onClick={() => setOverviewOpen((o) => !o)}
-            style={{ display: isMobile ? "none" : undefined }}
-            style={{
-              fontFamily: "'Switzer', sans-serif",
-              fontSize: "16px",
-              fontWeight: 400,
-              color: "black",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: "0 0 16px 0",
-              marginTop: "60px",
-              letterSpacing: "-0.04px",
-              transition: "color 0.2s ease",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#00F77B")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "black")}
-          >
-            {buttonLabel}
-          </button>
+          {/* Overview toggle button — desktop only, hide for hidden projects */}
+          {!project.hidden && (
+            <button
+              onClick={() => setOverviewOpen((o) => !o)}
+              style={{
+                display: isMobile ? "none" : undefined,
+                fontFamily: "'Switzer', sans-serif",
+                fontSize: "16px",
+                fontWeight: 400,
+                color: "black",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: "0 0 16px 0",
+                marginTop: "60px",
+                letterSpacing: "-0.04px",
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#00F77B")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "black")}
+            >
+              {buttonLabel}
+            </button>
+          )}
 
           {/* Images — layout 있으면 row 기반, 없으면 1장씩 */}
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>

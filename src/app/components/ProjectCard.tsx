@@ -245,8 +245,8 @@ export function ProjectCard({ year, projectName, type, tags, image, award = fals
         {/* Flip container */}
         <div
           className="w-full relative"
-          style={{ aspectRatio: imgRatio, borderRadius: "2px", overflow: "hidden" }}
-          onClick={wip ? () => setWipTapped((v) => !v) : undefined}
+          style={{ aspectRatio: imgRatio, borderRadius: "2px", overflow: "hidden", cursor: onProjectClick ? "pointer" : wip ? "pointer" : "default" }}
+          onClick={wip ? () => setWipTapped((v) => !v) : onProjectClick}
         >
           {isIdle ? (
             /* Home page — show image directly, no 3D flip */
