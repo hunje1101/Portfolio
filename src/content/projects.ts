@@ -138,7 +138,7 @@ export const projects: Project[] = Object.entries(metaModules)
     }
     return {
       ...mod.default,
-      image: image ?? "",
+      image: (mod.default as any).thumbUrl || image || "",
       _key: folder,
       photos: photosByFolder[folder] ?? [],
       photoMap: photoMapByFolder[folder] ?? {},
