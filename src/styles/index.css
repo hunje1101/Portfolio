@@ -1,0 +1,18 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+html, body, #root {
+  height: 100%;
+}
+
+/* ── 이미지 저장 방지 ── */
+img {
+  /* 드래그해서 저장 방지 */
+  -webkit-user-drag: none;
+  user-drag: none;
+  /* 모바일 길게 눌러서 저장 방지 */
+  -webkit-touch-callout: none;
+  /* 텍스트처럼 선택 방지 */
+  user-select: none;
+  -webkit-user-select: none;
+}

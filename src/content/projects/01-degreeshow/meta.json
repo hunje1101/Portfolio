@@ -1,0 +1,27 @@
+{
+  "projectName": "2025 Hongik University Visual Communication Degree Show Space Design",
+  "year": "2025",
+  "type": "Hongik University",
+  "tags": ["Brand Identity", "Space"],
+  "wip": false,
+  "award": false,
+
+  "overview": "**About 2025 HIVCD Graduation Show Week.**\nDOWNTOWN. This exhibition is a fictional city built from the houses created by students. Each of the students has poured four years of effort into a 'house,' which stands here as an art project. 15 classes form distinct neighborhoods, where works of different fields and qualities gather side by side. Visitors are invited as travelers encountering these diverse houses. \n\n**Project Contribution.** \nThe Downtown begins by redefining the visitor not as a mere observer, but as a 'traveler' strolling through a tranquil village of art. The design team deconstructed the physical boundaries of the gallery into hierarchical units of 'villages' and 'homes,' establishing an organic spatial system to connect them. By placing urban elements—such as directional signage, inviting storefronts, and atmospheric voids—throughout the space, the exhibition offers a poetic experience, making an unfamiliar setting feel like a familiar neighborhood. This project explores how graphic language can breathe warmth into physical environments, transforming a static exhibition into a vivid, living narrative of a community.\n\n\n\n**2025 홍익시디 졸전.**\nDOWNTOWN. 이 전시는 홍익시디의 학생들이 시민으로서 함께 쌓아 올린 집들로 이루어진 가상의 도시이다. 약 300명의 학생들이 각자 4년간의 시간과 노력을 담아 지은 '집'은 곧 작품이 되어 도시에 놓인다. 15개 반은 서로 다른 특색을 지닌 마을로 자리하고, 다양한 분야와 개성을 지닌 작품들은 그 안에서 저마다 다른 형태의 집으로 서 있다. 관람객은 이 도시에 초대된 여행자로서 거리를 거닐며 다양한 집들을 만나고 경험한다.\n\n**프로젝트 기여도**\nThe Downtown 전시는 관람자를 단순한 목격자가 아닌, 전시라는 이름의 평온한 마을을 거니는 '여행자'로 정의하며 시작됩니다. 디자인 팀은 전시장이라는 물리적 경계를 다운타운의 정겨운 위계에 따라 '마을'과 '집'의 단위로 세분화하고, 이를 연결하는 유기적 공간 시스템을 구축했습니다. 길거리의 이정표와 다양한 간판과 같은 도시적 요소를 곳곳에 배치하여 관람객이 낯선 공간에서도 마치 익숙한 동네를 유람하는 듯한 서정적 경험을 선사합니다.",
+  "scope": "Exhibiton Identity, Space",
+  "team": ["2025 HIVCD Art Team"],
+  "collaborators": ["Direction: Chaeyeon Kang, Seoyoung Jin \n Space: Gunhee Yun, Eunje Heo \n Photo: Seyeon Na, Eunyu Jung "],
+
+  "layout": [
+    ["1.jpg"],
+    ["1-1.jpg"],
+    ["2-1.jpg"],
+    ["2-2.jpg"],
+    ["2-3.jpg", "2-4.jpg"],
+    ["1-6.jpg"],
+    ["3-1.jpg"],
+    ["3-3.jpg"],
+    ["2-5.jpg", "1_5.jpg"],
+    ["4-2.jpg", "4-1.jpg"],
+    ["5.jpg"]
+  ]
+}
