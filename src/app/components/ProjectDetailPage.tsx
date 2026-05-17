@@ -15,6 +15,16 @@ function useIsMobile() {
 // mp4 / webm / mov → video 태그로 렌더링
 const isVideo = (src: string) => /\.(mp4|webm|mov)(\?.*)?$/i.test(src);
 
+// Vimeo URL 감지 → iframe 임베드
+const isVimeo = (src: string) => /^https?:\/\/(www\.)?vimeo\.com\/\d+/i.test(src);
+const getVimeoEmbedUrl = (src: string) => {
+  const match = src.match(/vimeo\.com\/(\d+)/);
+  return match ? `https://player.vimeo.com/video/${match[1]}?autoplay=1&loop=1&muted=1&background=1` : src;
+};
+
+// 외부 URL인지 확인
+const isExternalUrl = (src: string) => /^https?:\/\//i.test(src);
+
 /* ── 같은 행 미디어들의 높이를 동일하게, 비율 유지, 크롭 없이 렌더링 ──
    이미지: naturalWidth/naturalHeight
    영상: videoWidth/videoHeight (loadedmetadata 이벤트)            */
@@ -33,6 +43,7 @@ function LayoutRow({ row, photoMap, projectName, gap }: {
     let cancelled = false;
 
     async function getAR(index: number, src: string): Promise<number> {
+      if (isVimeo(src)) return 16 / 9;
       if (isVideo(src)) {
         const el = videoRefs.current[index];
         if (!el) return 16 / 9;
@@ -56,7 +67,7 @@ function LayoutRow({ row, photoMap, projectName, gap }: {
 
     Promise.all(
       row.map((filename, i) => {
-        const src = photoMap[filename];
+        const src = isExternalUrl(filename) ? filename : photoMap[filename];
         return src ? getAR(i, src) : Promise.resolve(1);
       })
     ).then((result) => { if (!cancelled) setRatios(result); });
@@ -70,7 +81,8 @@ function LayoutRow({ row, photoMap, projectName, gap }: {
   return (
     <div style={{ display: "flex", gap: `${gap}px`, alignItems: "flex-start" }}>
       {row.map((filename, i) => {
-        const src = photoMap[filename];
+        // 외부 URL(Vimeo 등)은 photoMap 조회 없이 직접 사용
+        const src = isExternalUrl(filename) ? filename : photoMap[filename];
         if (!src) return null;
         const share = ratios ? ratios[i] / totalRatio : 1 / n;
         const style: React.CSSProperties = {
@@ -82,7 +94,23 @@ function LayoutRow({ row, photoMap, projectName, gap }: {
         };
         return (
           <div key={i} style={style}>
-            {isVideo(src) ? (
+            {isVimeo(src) ? (
+              <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                <iframe
+                  src={getVimeoEmbedUrl(src)}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    border: "none",
+                  }}
+                  allow="autoplay; fullscreen"
+                  allowFullScreen
+                />
+              </div>
+            ) : isVideo(src) ? (
               <video
                 ref={(el) => { videoRefs.current[i] = el; }}
                 src={src}
