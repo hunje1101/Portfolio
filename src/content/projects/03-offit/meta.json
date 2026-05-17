@@ -4,5 +4,29 @@
   "type": "Self-Initiated",
   "tags": ["Brand Identity", "Graphic", "Interface", "Motion", "Package"],
   "title": "OFFit Brand Identity",
-  "wip": false
+  "wip": false,
+
+   
+
+  "overview": "",
+  "scope": "Brand Identity, Graphic, Interface",
+  "collaborators": ["UX/UI, BI: Eunje Heo, Hyobin Kim \nProduct: Jihun Choi, Yoonjung Jang"],
+
+
+  "layout": [
+    ["o.png"],
+    ["core.png"],
+    ["t.png"],
+    ["stand-1.png"],
+    ["logo.png"],
+    ["logo2.png", "logo-1.png"],
+    ["stand-1-1.png", "stand-2.png"],
+    ["package1.png"],
+    ["package2.png"],
+    ["poster1.png"],
+    ["poster2.png"],
+    ["bento.png"],
+
+    
+  ]
 }
