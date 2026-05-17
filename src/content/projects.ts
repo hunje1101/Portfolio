@@ -90,8 +90,8 @@ const imageModules = import.meta.glob(
 // + photo-* files directly in the project folder (legacy support)
 const photoModules = import.meta.glob(
   [
-    "./projects/[0-9]*/photos/*.{jpg,jpeg,png,webp,gif,mp4,webm,mov}",
-    "./projects/[0-9]*/photo-*.{jpg,jpeg,png,webp,gif,mp4,webm,mov}",
+    "./projects/[0-9]*/photos/*.{jpg,jpeg,png,webp,gif,mp4,MP4,webm,mov}",
+    "./projects/[0-9]*/photo-*.{jpg,jpeg,png,webp,gif,mp4,MP4,webm,mov}",
   ],
   { eager: true, query: "?url", import: "default" }
 ) as Record<string, string>;
