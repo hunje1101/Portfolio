@@ -19,7 +19,7 @@ const isVideo = (src: string) => /\.(mp4|webm|mov)(\?.*)?$/i.test(src);
 const isVimeo = (src: string) => /^https?:\/\/(www\.)?vimeo\.com\/\d+/i.test(src);
 const getVimeoEmbedUrl = (src: string) => {
   const match = src.match(/vimeo\.com\/(\d+)/);
-  return match ? `https://player.vimeo.com/video/${match[1]}?autoplay=1&loop=1&muted=1&title=0&byline=0&portrait=0` : src;
+  return match ? `https://player.vimeo.com/video/${match[1]}?autoplay=1&loop=1&muted=1&title=0&byline=0&portrait=0&controls=0` : src;
 };
 
 // 외부 URL인지 확인
