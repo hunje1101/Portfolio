@@ -306,6 +306,13 @@ export function ProjectDetailPage({ project, onBack }: ProjectDetailPageProps) {
                   multiline
                 />
               )}
+              {project.awards && project.awards.length > 0 && (
+                <MetaField
+                  label="Award"
+                  value={project.awards.join("\n")}
+                  multiline
+                />
+              )}
             </div>
           </div>
         </div>

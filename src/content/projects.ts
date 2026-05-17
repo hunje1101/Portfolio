@@ -52,6 +52,8 @@ export type Project = {
   team?: string[];
   /** Collaborator names, e.g. ["Hannes Weikert, animator"] */
   collaborators?: string[];
+  /** Award entries for detail page, e.g. ["IDEA 2025 Student Featured Finalist"] */
+  awards?: string[];
   /**
    * Detail page image layout.
    * Each array = one row. Images in the same row share equal width.
