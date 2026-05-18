@@ -19,7 +19,7 @@ const isVideo = (src: string) => /\.(mp4|webm|mov)(\?.*)?$/i.test(src);
 const isVimeo = (src: string) => /^https?:\/\/(www\.)?vimeo\.com\/\d+/i.test(src);
 const getVimeoEmbedUrl = (src: string) => {
   const match = src.match(/vimeo\.com\/(\d+)/);
-  return match ? `https://player.vimeo.com/video/${match[1]}?autoplay=1&loop=1&muted=1&title=0&byline=0&portrait=0` : src;
+  return match ? `https://player.vimeo.com/video/${match[1]}?background=1` : src;
 };
 
 // 외부 URL인지 확인
@@ -95,7 +95,7 @@ function LayoutRow({ row, photoMap, projectName, gap }: {
         return (
           <div key={i} style={style}>
             {isVimeo(src) ? (
-              <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden" }}>
+              <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
                 <iframe
                   src={getVimeoEmbedUrl(src)}
                   style={{
@@ -103,7 +103,7 @@ function LayoutRow({ row, photoMap, projectName, gap }: {
                     top: 0,
                     left: 0,
                     width: "100%",
-                    height: "calc(100% + 60px)",
+                    height: "100%",
                     border: "none",
                   }}
                   allow="autoplay; fullscreen"
