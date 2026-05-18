@@ -95,7 +95,7 @@ function LayoutRow({ row, photoMap, projectName, gap }: {
         return (
           <div key={i} style={style}>
             {isVimeo(src) ? (
-              <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+              <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden" }}>
                 <iframe
                   src={getVimeoEmbedUrl(src)}
                   style={{
@@ -103,7 +103,7 @@ function LayoutRow({ row, photoMap, projectName, gap }: {
                     top: 0,
                     left: 0,
                     width: "100%",
-                    height: "100%",
+                    height: "calc(100% + 60px)",
                     border: "none",
                   }}
                   allow="autoplay; fullscreen"
