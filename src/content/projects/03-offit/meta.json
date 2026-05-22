@@ -16,12 +16,13 @@
 
   "layout": [
     ["o.png"],
-    ["https://vimeo.com/1083361068?fl=pl&fe=cm"],
+    ["intro.mp4"],
+    ["logo_m.mp4"],
     ["core.png"],
     ["t.png"],
-    ["f.png","https://vimeo.com/1083361086?fl=pl&fe=cm"],
-    ["f2.png","https://vimeo.com/1083361099"],
-    ["https://vimeo.com/1083361115"],
+    ["f.png","m1.mp4"],
+    ["f2.png","m2.mp4"],
+    ["m3.mp4"],
     ["stand-1.png", "stand-2.png"],
     ["logo.png"],
     ["logo2.png", "logo-1.png"],
