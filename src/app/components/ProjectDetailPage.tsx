@@ -118,6 +118,8 @@ function LayoutRow({ row, photoMap, projectName, gap }: {
                 loop
                 muted
                 playsInline
+                preload="auto"
+                onCanPlay={(e) => { (e.target as HTMLVideoElement).play().catch(() => {}); }}
                 style={{ width: "100%", height: "auto", display: "block" }}
               />
             ) : (
