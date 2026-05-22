@@ -75,6 +75,12 @@ function LayoutRow({ row, photoMap, projectName, gap }: {
     return () => { cancelled = true; };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    videoRefs.current.forEach(v => {
+      if (v && v.paused) v.play().catch(() => {});
+    });
+  }, [ratios]);
+
   const totalGapPx = gap * (n - 1);
   const totalRatio = ratios ? ratios.reduce((a, b) => a + b, 0) : n;
 
