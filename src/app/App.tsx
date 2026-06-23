@@ -5,6 +5,59 @@ import { AboutPage } from "./components/AboutPage";
 import { ProjectDetailPage } from "./components/ProjectDetailPage";
 import { projects, Project } from "../content/projects";
 
+function seededRandom(seed: number) {
+  const x = Math.sin(seed * 9301 + 49297) * 49297;
+  return x - Math.floor(x);
+}
+
+type RowDef = { indices: number[]; widths: number[] };
+
+function buildHomeRows(projectList: Project[]): RowDef[] {
+  const rows: RowDef[] = [];
+  let i = 0;
+  let rowSeed = 0;
+  while (i < projectList.length) {
+    const remaining = projectList.length - i;
+    const r = seededRandom(rowSeed + 42);
+    const cardsInRow = remaining === 1 ? 1 : remaining === 2 ? 2 : r < 0.5 ? 2 : 3;
+    const indices: number[] = [];
+    for (let j = 0; j < cardsInRow && i < projectList.length; j++, i++) indices.push(i);
+
+    const widths: number[] = [];
+    if (indices.length === 1) {
+      widths.push(1);
+    } else if (indices.length === 2) {
+      const hasAward0 = projectList[indices[0]]?.award;
+      const hasAward1 = projectList[indices[1]]?.award;
+      let split: number;
+      if (hasAward0 && !hasAward1) {
+        split = 0.55 + seededRandom(rowSeed + 77) * 0.05;
+      } else if (!hasAward0 && hasAward1) {
+        split = 0.4 + seededRandom(rowSeed + 77) * 0.05;
+      } else {
+        split = 0.4 + seededRandom(rowSeed + 77) * 0.2;
+      }
+      widths.push(split, 1 - split);
+    } else {
+      const awardPos = indices.findIndex((idx) => projectList[idx]?.award);
+      const a = 0.25 + seededRandom(rowSeed + 88) * 0.2;
+      const b = 0.25 + seededRandom(rowSeed + 99) * 0.2;
+      const c = 1 - a - b;
+      const w = [a, b, c];
+      if (awardPos >= 0) {
+        const maxI = w.indexOf(Math.max(...w));
+        if (maxI !== awardPos) {
+          [w[maxI], w[awardPos]] = [w[awardPos], w[maxI]];
+        }
+      }
+      widths.push(...w);
+    }
+    rows.push({ indices, widths });
+    rowSeed++;
+  }
+  return rows;
+}
+
 /* ── Filter categories mapped to project tags ── */
 const filterCategories = [
   { label: "All", matchTags: [] },
@@ -315,87 +368,67 @@ export default function App() {
               ))}
             </div>
           ) : (
-            /* Desktop: two independent flex columns — each card keeps its natural height */
-            <>
-            <div
-              style={{
-                display: "flex",
-                gap: "8px",
-                marginTop: "12px",
-                paddingBottom: "40px",
-                alignItems: "flex-start",
-              }}
-            >
-              {/* Left column — indexes 0, 2, 4 … */}
-              <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "4px" }}>
-                {filteredProjects.filter((_, i) => i % 2 === 0).map((project, i) => {
-                  const globalIndex = i * 2;
-                  return (
-                    <div key={project._key} style={{ display: "flex", flexDirection: "column" }}>
-                      <ProjectCard
-                        year={project.year}
-                        projectName={project.projectName}
-                        type={project.type}
-                        tags={project.tags}
-                        image={project.image}
-                        award={project.award}
-                        wip={project.wip}
-                        variant="grid"
-                        forceFlipped={allFlipped}
-                        flipDelay={globalIndex * 120}
-                        activeFilter={activeFilter}
-                        isMobile={false}
-                        onProjectClick={(project.wip || project.hidden) ? undefined : () => setCurrentProject(project)}
-                      />
-                      <div style={{ paddingTop: "10px", paddingBottom: "12px" }}>
-                        <div style={{ fontFamily: "'Switzer', sans-serif", fontSize: "14px", lineHeight: "18px", fontWeight: 400, color: "#888", letterSpacing: "-0.04px", marginBottom: "3px" }}>
-                          {project.type}
-                        </div>
-                        <div style={{ fontFamily: "'Switzer', sans-serif", fontSize: "20px", lineHeight: "24px", fontWeight: 500, color: "#111", letterSpacing: "-0.05px" }}>
-                          {project.projectName}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Right column — indexes 1, 3, 5 … */}
-              <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "4px" }}>
-                {filteredProjects.filter((_, i) => i % 2 === 1).map((project, i) => {
-                  const globalIndex = i * 2 + 1;
-                  return (
-                    <div key={project._key} style={{ display: "flex", flexDirection: "column" }}>
-                      <ProjectCard
-                        year={project.year}
-                        projectName={project.projectName}
-                        type={project.type}
-                        tags={project.tags}
-                        image={project.image}
-                        award={project.award}
-                        wip={project.wip}
-                        variant="grid"
-                        forceFlipped={allFlipped}
-                        flipDelay={globalIndex * 120}
-                        activeFilter={activeFilter}
-                        isMobile={false}
-                        onProjectClick={(project.wip || project.hidden) ? undefined : () => setCurrentProject(project)}
-                      />
-                      <div style={{ paddingTop: "10px", paddingBottom: "12px" }}>
-                        <div style={{ fontFamily: "'Switzer', sans-serif", fontSize: "14px", lineHeight: "18px", fontWeight: 400, color: "#888", letterSpacing: "-0.04px", marginBottom: "3px" }}>
-                          {project.type}
-                        </div>
-                        <div style={{ fontFamily: "'Switzer', sans-serif", fontSize: "20px", lineHeight: "24px", fontWeight: 500, color: "#111", letterSpacing: "-0.05px" }}>
-                          {project.projectName}
+            /* Desktop: row-based random sizes on Home, 2-column grid on Projects */
+            (() => {
+              const isHome = currentPage === "Home";
+              const gap = 8;
+              const rows = buildHomeRows(filteredProjects);
+              return (
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: `${gap}px`,
+                    marginTop: "12px",
+                    paddingBottom: "40px",
+                  }}
+                >
+                  {filteredProjects.map((project, index) => {
+                    const row = rows.find((r) => r.indices.includes(index));
+                    const posInRow = row ? row.indices.indexOf(index) : 0;
+                    const homeWidthFrac = row ? row.widths[posInRow] : 0.5;
+                    const cardsInRow = row ? row.indices.length : 2;
+                    const homeWidth = `calc(${homeWidthFrac * 100}% - ${gap * (cardsInRow - 1) / cardsInRow}px)`;
+                    const gridWidth = `calc(50% - ${gap / 2}px)`;
+                    return (
+                      <div
+                        key={project._key}
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          width: isHome ? homeWidth : gridWidth,
+                          transition: "width 0.8s cubic-bezier(0.4, 0, 0.2, 1)",
+                        }}
+                      >
+                        <ProjectCard
+                          year={project.year}
+                          projectName={project.projectName}
+                          type={project.type}
+                          tags={project.tags}
+                          image={project.image}
+                          award={project.award}
+                          wip={project.wip}
+                          variant="grid"
+                          forceFlipped={allFlipped}
+                          flipDelay={index * 120}
+                          activeFilter={activeFilter}
+                          isMobile={false}
+                          onProjectClick={(project.wip || project.hidden) ? undefined : () => setCurrentProject(project)}
+                        />
+                        <div style={{ paddingTop: "10px", paddingBottom: "12px" }}>
+                          <div style={{ fontFamily: "'Switzer', sans-serif", fontSize: "14px", lineHeight: "18px", fontWeight: 400, color: "#888", letterSpacing: "-0.04px", marginBottom: "3px" }}>
+                            {project.type}
+                          </div>
+                          <div style={{ fontFamily: "'Switzer', sans-serif", fontSize: "20px", lineHeight: "24px", fontWeight: 500, color: "#111", letterSpacing: "-0.05px" }}>
+                            {project.projectName}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            </>
+                    );
+                  })}
+                </div>
+              );
+            })()
           )}
         </div>
         )}
