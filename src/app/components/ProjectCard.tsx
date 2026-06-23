@@ -269,11 +269,19 @@ export function ProjectCard({ year, projectName, type, tags, image, award = fals
                 transition: mobileTransition ? "transform 1.2s ease-out" : "none",
               }}
             >
-              {/* Front — black */}
+              {/* Front — thumbnail image */}
               <div
-                className="absolute inset-0 bg-black"
+                className="absolute inset-0 overflow-hidden bg-[#d9d9d9]"
                 style={{ backfaceVisibility: "hidden" }}
-              />
+              >
+                <ThumbMedia
+                  src={image}
+                  alt={projectName}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  style={{ opacity: 0.9 }}
+                  onLoad={handleImageLoad}
+                />
+              </div>
               {/* Back — image */}
               <div
                 className="absolute inset-0 overflow-hidden bg-[#d9d9d9]"
@@ -403,11 +411,18 @@ export function ProjectCard({ year, projectName, type, tags, image, award = fals
             transition: "transform 0.7s ease-out",
           }}
         >
-          {/* FRONT: black */}
+          {/* FRONT: thumbnail image */}
           <div
-            className="absolute inset-0 bg-black"
+            className="absolute inset-0 overflow-hidden bg-[#d9d9d9]"
             style={{ backfaceVisibility: "hidden" }}
-          />
+          >
+            <ThumbMedia
+              src={image}
+              alt={projectName}
+              className="absolute inset-0 w-full h-full object-cover"
+              onLoad={handleImageLoad}
+            />
+          </div>
           {/* BACK: full-width image */}
           <div
             className="absolute inset-0 overflow-hidden"
