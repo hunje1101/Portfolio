@@ -174,6 +174,7 @@ interface ProjectDetailPageProps {
 export function ProjectDetailPage({ project, onBack }: ProjectDetailPageProps) {
   const [overviewOpen, setOverviewOpen] = useState(false);
   const [dividerHovered, setDividerHovered] = useState(false);
+  const [showKorean, setShowKorean] = useState(false);
   const isMobile = useIsMobile();
 
   // Collect all images: thumb first, then detailImages (by name from project folder),
@@ -192,10 +193,15 @@ export function ProjectDetailPage({ project, onBack }: ProjectDetailPageProps) {
   // photos are already resolved URLs from the glob
   (project.photos ?? []).forEach(addImage);
 
-  // \n\n → 문단 나누기 (18px 간격), \n\n\n\n → 두 번 띄기 (36px)
-  // 빈 문단("")도 18px 스페이서로 유지 (필터링 안 함)
-  const overviewParagraphs = project.overview
-    ? project.overview.split("\n\n")
+  const [overviewEn, overviewKo] = (() => {
+    if (!project.overview) return ["", ""];
+    const parts = project.overview.split("\n\n\n\n");
+    return [parts[0] ?? "", (parts[1] ?? "").trim()];
+  })();
+  const hasKorean = overviewKo.length > 0;
+  const activeOverview = showKorean ? overviewKo : overviewEn;
+  const overviewParagraphs = activeOverview
+    ? activeOverview.split("\n\n")
     : [];
 
   const buttonLabel = overviewOpen
@@ -249,27 +255,50 @@ export function ProjectDetailPage({ project, onBack }: ProjectDetailPageProps) {
               >
                 Project Overview
               </span>
-              <button
-                onClick={() => { setOverviewOpen(false); setDividerHovered(false); }}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  padding: "0",
-                  lineHeight: 1,
-                  color: "black",
-                  fontSize: "18px",
-                  fontWeight: 300,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  transition: "color 0.2s ease",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#00F77B")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "black")}
-              >
-                ×
-              </button>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                {hasKorean && (
+                  <button
+                    onClick={() => setShowKorean((v) => !v)}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      padding: "0",
+                      fontFamily: "'Switzer', sans-serif",
+                      fontSize: "13px",
+                      fontWeight: 500,
+                      color: "#888",
+                      letterSpacing: "-0.03px",
+                      transition: "color 0.2s ease",
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "#00F77B")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "#888")}
+                  >
+                    {showKorean ? "EN" : "KR"}
+                  </button>
+                )}
+                <button
+                  onClick={() => { setOverviewOpen(false); setDividerHovered(false); }}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: "0",
+                    lineHeight: 1,
+                    color: "black",
+                    fontSize: "18px",
+                    fontWeight: 300,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    transition: "color 0.2s ease",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#00F77B")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "black")}
+                >
+                  ×
+                </button>
+              </div>
             </div>
             <div style={{ height: "1.3px", backgroundColor: "black", marginTop: "1px" }} />
           </div>
