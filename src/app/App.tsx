@@ -101,7 +101,7 @@ export default function App() {
 
   // Handle page transitions
   useEffect(() => {
-    if (currentPage === "Projects") {
+    if (currentPage === "All Projects") {
       setHeroCollapsed(true);
       const t1 = setTimeout(() => setShowFilters(true), isMobile ? 200 : 350);
       const t2 = setTimeout(() => setAllFlipped(true), isMobile ? 600 : 500);
@@ -118,7 +118,7 @@ export default function App() {
   // Filter projects based on active filter
   // On "Projects" page: show all including hidden. On "Home": hide hidden ones.
   const filteredProjects = useMemo(() => {
-    const pool = currentPage === "Projects"
+    const pool = currentPage === "All Projects"
       ? projects
       : projects.filter((p) => !p.hidden);
     if (activeFilter === "All") return pool;
@@ -279,7 +279,7 @@ export default function App() {
                           fontSize: "14px",
                           lineHeight: "20px",
                           fontWeight: isActive ? 500 : 400,
-                          color: isActive ? "#00F77B" : "#888",
+                          color: isActive ? "black" : "#888",
                           background: "none",
                           border: "none",
                           cursor: "pointer",
@@ -316,8 +316,8 @@ export default function App() {
                         ...fontBase,
                         fontSize: "16px",
                         lineHeight: "20.8px",
-                        fontWeight: 400,
-                        color: isActive ? "#00F77B" : "black",
+                        fontWeight: isActive ? 500 : 400,
+                        color: "black",
                         background: "none",
                         cursor: "pointer",
                         padding: "4px 0",
@@ -364,6 +364,7 @@ export default function App() {
                   activeFilter={activeFilter}
                   isMobile={true}
                   onProjectClick={(project.wip || project.hidden) ? undefined : () => setCurrentProject(project)}
+                  keyColor={project.keyColor}
                 />
               ))}
             </div>
@@ -414,6 +415,7 @@ export default function App() {
                           activeFilter={activeFilter}
                           isMobile={false}
                           onProjectClick={(project.wip || project.hidden) ? undefined : () => setCurrentProject(project)}
+                          keyColor={project.keyColor}
                         />
                         <div style={{ paddingTop: "10px", paddingBottom: "12px" }}>
                           <div style={{ fontFamily: "'Switzer', sans-serif", fontSize: "14px", lineHeight: "18px", fontWeight: 400, color: "#888", letterSpacing: "-0.04px", marginBottom: "3px" }}>

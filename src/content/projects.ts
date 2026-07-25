@@ -46,6 +46,10 @@ export type Project = {
   // ── Detail page fields (all optional) ──
   /** Project description; use \n to separate paragraphs. Wrap in **text** for semi-bold. */
   overview?: string;
+  /** English overview (takes priority over splitting overview by \n\n\n\n) */
+  overview_en?: string;
+  /** Korean overview */
+  overview_kr?: string;
   /** Scope of work label, e.g. "Space, Graphic" */
   scope?: string;
   /** Team disciplines, e.g. ["Space", "Graphic"] */
@@ -54,6 +58,10 @@ export type Project = {
   collaborators?: string[];
   /** Award entries for detail page, e.g. ["IDEA 2025 Student Featured Finalist"] */
   awards?: string[];
+  /** External links, e.g. ["https://www.behance.net/gallery/..."] */
+  links?: string[];
+  /** Key color hex for card flip face, e.g. "#00F6AC" */
+  keyColor?: string;
   /**
    * Detail page image layout.
    * Each array = one row. Images in the same row share equal width.

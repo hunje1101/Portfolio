@@ -51,6 +51,7 @@ interface ProjectCardProps {
   isMobile?: boolean;
   /** Called when the grid card is clicked (desktop only) */
   onProjectClick?: () => void;
+  keyColor?: string;
 }
 
 /* Maps filter labels to the tag substrings they match */
@@ -74,7 +75,7 @@ interface Particle {
   size: number;
 }
 
-export function ProjectCard({ year, projectName, type, tags, image, award = false, wip = false, variant = "row", forceFlipped = false, flipDelay = 0, activeFilter = "All", isMobile = false, onProjectClick }: ProjectCardProps) {
+export function ProjectCard({ year, projectName, type, tags, image, award = false, wip = false, variant = "row", forceFlipped = false, flipDelay = 0, activeFilter = "All", isMobile = false, onProjectClick, keyColor }: ProjectCardProps) {
   const [isHoverFlipped, setIsHoverFlipped] = useState(false);
   const [delayedForceFlip, setDelayedForceFlip] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
@@ -88,6 +89,7 @@ export function ProjectCard({ year, projectName, type, tags, image, award = fals
   const [imgRatio, setImgRatio] = useState("16/9");
   const [wipHovered, setWipHovered] = useState(false);
   const [wipTapped, setWipTapped] = useState(false);
+  const [spinCount, setSpinCount] = useState(0);
 
   const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement | HTMLVideoElement>) => {
     const el = e.currentTarget;
@@ -119,20 +121,26 @@ export function ProjectCard({ year, projectName, type, tags, image, award = fals
   useEffect(() => {
     if (forceFlipped) {
       const t = setTimeout(() => {
-        setDelayedForceFlip(true);
-        setShowImage(true);
-        const t1 = setTimeout(() => setShowTags(true), 200 + flipDelay * 0.3);
-        const t2 = setTimeout(() => setShowInfo(true), 350 + flipDelay * 0.3);
-        timeoutsRef.current.push(t1, t2);
+        if (keyColor) {
+          setSpinCount(c => c + 1);
+        } else {
+          setDelayedForceFlip(true);
+          setShowImage(true);
+          const t1 = setTimeout(() => setShowTags(true), 200 + flipDelay * 0.3);
+          const t2 = setTimeout(() => setShowInfo(true), 350 + flipDelay * 0.3);
+          timeoutsRef.current.push(t1, t2);
+        }
       }, flipDelay);
       timeoutsRef.current.push(t);
     } else {
-      setDelayedForceFlip(false);
-      setShowInfo(false);
-      setShowTags(false);
-      setShowImage(false);
+      if (!keyColor) {
+        setDelayedForceFlip(false);
+        setShowInfo(false);
+        setShowTags(false);
+        setShowImage(false);
+      }
     }
-  }, [forceFlipped, flipDelay]);
+  }, [forceFlipped, flipDelay, keyColor]);
 
   const generateParticles = useCallback(() => {
     const card = cardRef.current;
@@ -260,13 +268,15 @@ export function ProjectCard({ year, projectName, type, tags, image, award = fals
               />
             </div>
           ) : (
-            /* Projects page — 3D flip from black to image */
+            /* Projects page — 3D flip */
             <div
               className="w-full h-full"
               style={{
                 transformStyle: "preserve-3d",
-                transform: mobileFlipState === "flipped" ? "rotateX(-180deg)" : "rotateX(0deg)",
-                transition: mobileTransition ? "transform 1.2s ease-out" : "none",
+                transform: keyColor
+                  ? `rotateX(${-360 * spinCount}deg)`
+                  : (mobileFlipState === "flipped" ? "rotateX(-180deg)" : "rotateX(0deg)"),
+                transition: mobileTransition || (keyColor && spinCount > 0) ? `transform ${keyColor ? "0.8s" : "1.2s"} ease-out` : "none",
               }}
             >
               {/* Front — thumbnail image */}
@@ -282,21 +292,24 @@ export function ProjectCard({ year, projectName, type, tags, image, award = fals
                   onLoad={handleImageLoad}
                 />
               </div>
-              {/* Back — image */}
+              {/* Back — key color or image */}
               <div
-                className="absolute inset-0 overflow-hidden bg-[#d9d9d9]"
+                className="absolute inset-0 overflow-hidden"
                 style={{
                   backfaceVisibility: "hidden",
                   transform: "rotateX(180deg)",
+                  backgroundColor: keyColor || "#d9d9d9",
                 }}
               >
-                <ThumbMedia
-                  src={image}
-                  alt={projectName}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  style={{ opacity: 0.9 }}
-                  onLoad={handleImageLoad}
-                />
+                {!keyColor && (
+                  <ThumbMedia
+                    src={image}
+                    alt={projectName}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    style={{ opacity: 0.9 }}
+                    onLoad={handleImageLoad}
+                  />
+                )}
               </div>
             </div>
           )}
@@ -407,8 +420,10 @@ export function ProjectCard({ year, projectName, type, tags, image, award = fals
           className="w-full h-full"
           style={{
             transformStyle: "preserve-3d",
-            transform: isFlipped ? "rotateX(-180deg)" : "rotateX(0deg)",
-            transition: "transform 0.7s ease-out",
+            transform: keyColor
+              ? `rotateX(${-360 * spinCount}deg)`
+              : (isFlipped ? "rotateX(-180deg)" : "rotateX(0deg)"),
+            transition: `transform ${keyColor ? "0.8s" : "0.7s"} ease-out`,
           }}
         >
           {/* FRONT: thumbnail image */}
@@ -423,21 +438,24 @@ export function ProjectCard({ year, projectName, type, tags, image, award = fals
               onLoad={handleImageLoad}
             />
           </div>
-          {/* BACK: full-width image */}
+          {/* BACK: key color or thumbnail */}
           <div
             className="absolute inset-0 overflow-hidden"
-            style={{ backfaceVisibility: "hidden", transform: "rotateX(180deg)" }}
+            style={{ backfaceVisibility: "hidden", transform: "rotateX(180deg)", backgroundColor: keyColor || "#d9d9d9" }}
           >
-            <div className="absolute inset-0 bg-[#d9d9d9]" />
-            <ThumbMedia
-              src={image}
-              alt={projectName}
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ transform: "scale(1)" }}
-              onLoad={handleImageLoad}
-            />
-            {/* WIP: 이미지 위에 30% 딤 + 호버 시 텍스트 */}
-            {wip && (
+            {!keyColor && (
+              <>
+                <div className="absolute inset-0 bg-[#d9d9d9]" />
+                <ThumbMedia
+                  src={image}
+                  alt={projectName}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  style={{ transform: "scale(1)" }}
+                  onLoad={handleImageLoad}
+                />
+              </>
+            )}
+            {wip && !keyColor && (
               <div
                 className="absolute inset-0 flex items-center justify-center"
                 style={{

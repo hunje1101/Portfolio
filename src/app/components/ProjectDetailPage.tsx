@@ -194,6 +194,9 @@ export function ProjectDetailPage({ project, onBack }: ProjectDetailPageProps) {
   (project.photos ?? []).forEach(addImage);
 
   const [overviewEn, overviewKo] = (() => {
+    if (project.overview_en || project.overview_kr) {
+      return [project.overview_en ?? "", project.overview_kr ?? ""];
+    }
     if (!project.overview) return ["", ""];
     const parts = project.overview.split("\n\n\n\n");
     return [parts[0] ?? "", (parts[1] ?? "").trim()];
@@ -271,8 +274,8 @@ export function ProjectDetailPage({ project, onBack }: ProjectDetailPageProps) {
                       letterSpacing: "-0.03px",
                       transition: "color 0.2s ease",
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = "#00F77B")}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "#888")}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = "black"; e.currentTarget.style.fontWeight = "600"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = "#888"; e.currentTarget.style.fontWeight = "500"; }}
                   >
                     {showKorean ? "EN" : "KR"}
                   </button>
@@ -293,8 +296,8 @@ export function ProjectDetailPage({ project, onBack }: ProjectDetailPageProps) {
                     justifyContent: "center",
                     transition: "color 0.2s ease",
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "#00F77B")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "black")}
+                  onMouseEnter={(e) => (e.currentTarget.style.fontWeight = "500")}
+                  onMouseLeave={(e) => (e.currentTarget.style.fontWeight = "300")}
                 >
                   ×
                 </button>
@@ -378,6 +381,24 @@ export function ProjectDetailPage({ project, onBack }: ProjectDetailPageProps) {
                   multiline
                 />
               )}
+              {project.links && project.links.length > 0 && (
+                <div>
+                  <div style={{ fontFamily: "'Switzer', sans-serif", fontSize: "12px", color: "#888", fontWeight: 400, marginBottom: "4px", letterSpacing: "-0.03px" }}>
+                    Links
+                  </div>
+                  {project.links.map((url, i) => (
+                    <a
+                      key={i}
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ fontFamily: "'Switzer', sans-serif", fontSize: "14px", color: "black", lineHeight: "22px", letterSpacing: "-0.04px", textDecoration: "underline", display: "block" }}
+                    >
+                      {(() => { try { return new URL(url).hostname.replace("www.", ""); } catch { return url; } })()}
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -404,7 +425,7 @@ export function ProjectDetailPage({ project, onBack }: ProjectDetailPageProps) {
               top: 0,
               bottom: 0,
               width: "1.3px",
-              backgroundColor: dividerHovered ? "#00F77B" : "#bababa",
+              backgroundColor: dividerHovered ? "black" : "#bababa",
               transition: "background-color 0.2s ease",
             }}
           />
@@ -446,11 +467,10 @@ export function ProjectDetailPage({ project, onBack }: ProjectDetailPageProps) {
           )}
 
           {/* Overview toggle button — desktop only, hide for hidden projects */}
-          {!project.hidden && (
+          {!project.hidden && !isMobile && (
             <button
               onClick={() => setOverviewOpen((o) => !o)}
               style={{
-                display: isMobile ? "none" : undefined,
                 fontFamily: "'Switzer', sans-serif",
                 fontSize: "16px",
                 fontWeight: 400,
@@ -463,15 +483,15 @@ export function ProjectDetailPage({ project, onBack }: ProjectDetailPageProps) {
                 letterSpacing: "-0.04px",
                 transition: "color 0.2s ease",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#00F77B")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "black")}
+              onMouseEnter={(e) => (e.currentTarget.style.fontWeight = "500")}
+              onMouseLeave={(e) => (e.currentTarget.style.fontWeight = "400")}
             >
               {buttonLabel}
             </button>
           )}
 
           {/* Images — layout 있으면 row 기반, 없으면 1장씩 */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px", position: "relative" }}>
             {project.layout && project.layout.length > 0 ? (
               // layout 정의된 경우: 행마다 이미지 개수 제어 + 최단 높이 기준 정렬
               project.layout.map((row, rowIndex) => (
@@ -515,8 +535,171 @@ export function ProjectDetailPage({ project, onBack }: ProjectDetailPageProps) {
               </div>
             )}
           </div>
+
         </div>
       </div>
+
+      {/* ── Mobile floating "Project Overview" button + overlay ── */}
+      {isMobile && !project.hidden && overviewParagraphs.length > 0 && (
+        <>
+          {/* Floating button */}
+          <button
+            onClick={() => setOverviewOpen((o) => !o)}
+            style={{
+              position: "fixed",
+              bottom: "20px",
+              right: "28px",
+              zIndex: 100,
+              fontFamily: "'Switzer', sans-serif",
+              fontSize: "14px",
+              fontWeight: 500,
+              color: "#333",
+              backgroundColor: overviewOpen ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.4)",
+              backdropFilter: "blur(20px) saturate(1.2)",
+              WebkitBackdropFilter: "blur(20px) saturate(1.2)",
+              border: "none",
+              borderRadius: "2px",
+              padding: "8px 14px",
+              cursor: "pointer",
+              letterSpacing: "-0.02px",
+              boxShadow: "none",
+            }}
+          >
+            {overviewOpen ? "Project Overview  ×" : "Project Overview  +"}
+          </button>
+
+          {/* Overlay panel */}
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 99,
+              backgroundColor: "white",
+              overflowY: "auto",
+              transform: overviewOpen ? "translateY(0)" : "translateY(100%)",
+              transition: "transform 0.35s ease",
+              padding: "20px 20px 80px 20px",
+              boxSizing: "border-box",
+            }}
+          >
+            {/* Header */}
+            <div style={{ marginBottom: "20px" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <span
+                  style={{
+                    fontFamily: "'Switzer', sans-serif",
+                    fontSize: "14px",
+                    color: "black",
+                    fontWeight: 600,
+                    letterSpacing: "-0.04px",
+                  }}
+                >
+                  Project Overview
+                </span>
+                {hasKorean && (
+                  <button
+                    onClick={() => setShowKorean((v) => !v)}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      padding: "0",
+                      fontFamily: "'Switzer', sans-serif",
+                      fontSize: "12px",
+                      fontWeight: 500,
+                      color: "#888",
+                      letterSpacing: "-0.03px",
+                    }}
+                  >
+                    {showKorean ? "EN" : "KR"}
+                  </button>
+                )}
+              </div>
+              <div style={{ height: "1.3px", backgroundColor: "black", marginTop: "4px" }} />
+            </div>
+
+            {/* Overview paragraphs */}
+            <div style={{ marginBottom: "28px" }}>
+              {overviewParagraphs.map((para, i) => {
+                const isLast = i === overviewParagraphs.length - 1;
+                if (para.trim().length === 0) {
+                  return <div key={i} style={{ height: "14px" }} />;
+                }
+                return (
+                  <p
+                    key={i}
+                    style={{
+                      fontFamily: "'Switzer', sans-serif",
+                      fontSize: "14px",
+                      lineHeight: "22px",
+                      fontWeight: 400,
+                      color: "black",
+                      margin: 0,
+                      marginBottom: isLast ? 0 : "14px",
+                    }}
+                  >
+                    {renderParagraph(para)}
+                  </p>
+                );
+              })}
+            </div>
+
+            {/* Metadata */}
+            <div style={{ display: "flex", gap: "12px" }}>
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "16px" }}>
+                <MetaField label="Client" value={project.type} />
+                <MetaField label="Year" value={project.year} />
+                {project.scope && <MetaField label="Scope of work" value={project.scope} />}
+              </div>
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "16px" }}>
+                <MetaField
+                  label="Team"
+                  value={
+                    project.team && project.team.length > 0
+                      ? project.team.join(", ")
+                      : undefined
+                  }
+                />
+                {project.collaborators && project.collaborators.length > 0 && (
+                  <MetaField
+                    label="Collaborators"
+                    value={project.collaborators.join("\n")}
+                    multiline
+                  />
+                )}
+                {project.awards && project.awards.length > 0 && (
+                  <MetaField
+                    label="Award"
+                    value={project.awards.join("\n")}
+                    multiline
+                  />
+                )}
+                {project.links && project.links.length > 0 && (
+                  <div>
+                    <div style={{ fontFamily: "'Switzer', sans-serif", fontSize: "12px", color: "#888", fontWeight: 400, marginBottom: "4px", letterSpacing: "-0.03px" }}>
+                      Links
+                    </div>
+                    {project.links.map((url, i) => (
+                      <a
+                        key={i}
+                        href={url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ fontFamily: "'Switzer', sans-serif", fontSize: "14px", color: "black", lineHeight: "22px", letterSpacing: "-0.04px", textDecoration: "underline", display: "block" }}
+                      >
+                        {(() => { try { return new URL(url).hostname.replace("www.", ""); } catch { return url; } })()}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

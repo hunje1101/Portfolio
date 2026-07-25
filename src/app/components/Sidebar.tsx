@@ -6,7 +6,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
-  const navLinks = ["Home", "Projects", "About", "Something Fun"];
+  const navLinks = ["Home", "All Projects", "About", "Something Fun"];
   const [pressedLink, setPressedLink] = useState<string | null>(null);
   const [hoveredFun, setHoveredFun] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -111,11 +111,10 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
                           height: "22px",
                           display: "flex",
                           alignItems: "center",
+                          fontWeight: (!isDisabled && (pressedLink === label || isActive)) ? 500 : 400,
                           color: isDisabled
                             ? "#888"
-                            : pressedLink === label || isActive
-                              ? "#00F77B"
-                              : "black",
+                            : "black",
                           cursor: isDisabled ? "default" : "pointer",
                         }}
                         onMouseDown={() => !isDisabled && setPressedLink(label)}
@@ -285,9 +284,10 @@ export function Sidebar({ currentPage, onNavigate }: SidebarProps) {
                     height: "22px",
                     display: "flex",
                     alignItems: "center",
+                    fontWeight: (!isDisabled && (pressedLink === label || isActive)) ? 500 : 400,
                     color: isDisabled
                       ? "#888"
-                      : pressedLink === label || isActive ? "#00F77B" : "black",
+                      : "black",
                     cursor: isDisabled ? "default" : "pointer",
                   }}
                   onMouseDown={() => !isDisabled && setPressedLink(label)}

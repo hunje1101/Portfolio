@@ -13,7 +13,7 @@ const awards = [
 ];
 
 const education = [
-  { year: "2026~", name: "Royal College of Art, London (2026 Expected Enrollment)", type: "MA Visual Communication" },
+  { year: "2026~", name: "Royal College of Art, London", type: "MA Visual Communication" },
   { year: "2026–2021", name: "Hongik University, Seoul", type: "BFA Visual Communication Design" },
 ];
 
@@ -305,7 +305,7 @@ export function AboutPage() {
             className="absolute left-0 top-0 bottom-0"
             style={{
               width: "1.8px",
-              backgroundColor: (edgeHovered || closeHovered) ? "#00F77B" : "#e0e0e0",
+              backgroundColor: (edgeHovered || closeHovered) ? "black" : "#e0e0e0",
               transition: "background-color 0.2s ease",
             }}
           />
@@ -318,7 +318,7 @@ export function AboutPage() {
               transition: "opacity 0.25s ease, transform 0.25s ease",
               fontSize: "22px",
               fontWeight: 700,
-              color: "#00F77B",
+              color: "black",
               fontFamily: "'Switzer', sans-serif",
             }}
           >
@@ -378,13 +378,14 @@ export function AboutPage() {
               <span
                 className="cursor-pointer"
                 onClick={() => setExpanded(!expanded)}
-                onMouseEnter={(e) => e.currentTarget.style.color = "#00F77B"}
-                onMouseLeave={(e) => e.currentTarget.style.color = expanded ? "#00F77B" : "black"}
+                onMouseEnter={(e) => (e.currentTarget.style.fontWeight = "600")}
+                onMouseLeave={(e) => (e.currentTarget.style.fontWeight = expanded ? "600" : "400")}
                 style={{
                   ...fontBase,
                   fontSize: "13px",
                   lineHeight: "20px",
-                  color: expanded ? "#00F77B" : "black",
+                  color: "black",
+                  fontWeight: expanded ? 600 : 400,
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "6px",
