@@ -276,7 +276,7 @@ export function ProjectCard({ year, projectName, type, tags, image, award = fals
                 transform: keyColor
                   ? `rotateX(${-360 * spinCount}deg)`
                   : (mobileFlipState === "flipped" ? "rotateX(-180deg)" : "rotateX(0deg)"),
-                transition: mobileTransition || (keyColor && spinCount > 0) ? `transform ${keyColor ? "0.8s" : "1.2s"} ease-out` : "none",
+                transition: mobileTransition || (keyColor && spinCount > 0) ? `transform ${keyColor ? "1.2s" : "1.2s"} ease-out` : "none",
               }}
             >
               {/* Front — thumbnail image */}
@@ -423,7 +423,7 @@ export function ProjectCard({ year, projectName, type, tags, image, award = fals
             transform: keyColor
               ? `rotateX(${-360 * spinCount}deg)`
               : (isFlipped ? "rotateX(-180deg)" : "rotateX(0deg)"),
-            transition: `transform ${keyColor ? "0.8s" : "0.7s"} ease-out`,
+            transition: `transform ${keyColor ? "1.2s" : "0.7s"} ease-out`,
           }}
         >
           {/* FRONT: thumbnail image */}
