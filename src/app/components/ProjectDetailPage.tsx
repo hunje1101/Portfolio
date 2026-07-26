@@ -548,7 +548,7 @@ export function ProjectDetailPage({ project, onBack }: ProjectDetailPageProps) {
             style={{
               position: "fixed",
               bottom: "20px",
-              right: "28px",
+              right: "42px",
               zIndex: 100,
               fontFamily: "'Switzer', sans-serif",
               fontSize: "14px",
