@@ -288,7 +288,7 @@ function OverviewContent({ project, paragraphs, showKorean, hasKorean, onToggleL
 
 /* ── Main component ── */
 
-export function ProjectDetailPage({ project, onBack }: { project: Project; onBack: () => void }) {
+export function ProjectDetailPage({ project }: { project: Project }) {
   const [overviewOpen, setOverviewOpen] = useState(false);
   const [dividerHovered, setDividerHovered] = useState(false);
   const [showKorean, setShowKorean] = useState(false);

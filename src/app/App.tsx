@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import { Sidebar } from "./components/Sidebar";
 import { ProjectCard } from "./components/ProjectCard";
 import { AboutPage } from "./components/AboutPage";
@@ -88,6 +88,34 @@ export default function App() {
   const [filterDropdownOpen, setFilterDropdownOpen] = useState(false);
   const [currentProject, setCurrentProject] = useState<Project | null>(null);
   const [introComplete, setIntroComplete] = useState(false);
+  const isPoppingRef = useRef(false);
+
+  const navigateTo = useCallback((page: string, project: Project | null = null) => {
+    history.pushState({ page, projectKey: project?._key ?? null }, "", "");
+    setCurrentPage(page);
+    setCurrentProject(project);
+  }, []);
+
+  useEffect(() => {
+    history.replaceState({ page: "Home", projectKey: null }, "", "");
+
+    const onPopState = (e: PopStateEvent) => {
+      const s = e.state as { page: string; projectKey: string | null } | null;
+      isPoppingRef.current = true;
+      if (!s) {
+        setCurrentPage("Home");
+        setCurrentProject(null);
+      } else {
+        setCurrentPage(s.page);
+        setCurrentProject(
+          s.projectKey ? (projects.find(p => p._key === s.projectKey) ?? null) : null
+        );
+      }
+      requestAnimationFrame(() => { isPoppingRef.current = false; });
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= 768);
@@ -113,7 +141,7 @@ export default function App() {
       setShowFilters(false);
       setHeroCollapsed(false);
       setActiveFilter("All");
-      setCurrentProject(null);
+      if (!isPoppingRef.current) setCurrentProject(null);
     }
   }, [currentPage]);
 
@@ -155,10 +183,10 @@ export default function App() {
         onNavigate={(page) => {
           if (page === currentPage) {
             if (currentProject) {
-              setCurrentProject(null);
+              navigateTo(currentPage, null);
             }
           } else {
-            setCurrentPage(page);
+            navigateTo(page);
           }
         }}
       />
@@ -174,10 +202,7 @@ export default function App() {
         {currentPage === "About" ? (
           <AboutPage />
         ) : currentProject !== null ? (
-          <ProjectDetailPage
-            project={currentProject}
-            onBack={() => setCurrentProject(null)}
-          />
+          <ProjectDetailPage project={currentProject} />
         ) : (
         <div style={{ padding: isMobile ? "0 16px" : "0 20px" }}>
           {/* Top spacer */}
@@ -368,7 +393,7 @@ export default function App() {
                   flipDelay={index * 50}
                   activeFilter={activeFilter}
                   isMobile={true}
-                  onProjectClick={(project.wip || project.hidden) ? undefined : () => setCurrentProject(project)}
+                  onProjectClick={(project.wip || project.hidden) ? undefined : () => navigateTo(currentPage, project)}
                   keyColor={project.keyColor}
                 />
               ))}
@@ -419,7 +444,7 @@ export default function App() {
                           flipDelay={index * 120}
                           activeFilter={activeFilter}
                           isMobile={false}
-                          onProjectClick={(project.wip || project.hidden) ? undefined : () => setCurrentProject(project)}
+                          onProjectClick={(project.wip || project.hidden) ? undefined : () => navigateTo(currentPage, project)}
                           keyColor={project.keyColor}
                         />
                         <div style={{ paddingTop: "10px", paddingBottom: "12px" }}>

@@ -88,7 +88,6 @@ export function ProjectCard({ year, projectName, type, tags, image, award = fals
   const [mobileTransition, setMobileTransition] = useState(false);
   const [imgRatio, setImgRatio] = useState("16/9");
   const [wipHovered, setWipHovered] = useState(false);
-  const [wipTapped, setWipTapped] = useState(false);
   const [spinCount, setSpinCount] = useState(0);
 
   const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement | HTMLVideoElement>) => {
@@ -455,31 +454,32 @@ export function ProjectCard({ year, projectName, type, tags, image, award = fals
                 />
               </>
             )}
-            {wip && !keyColor && (
-              <div
-                className="absolute inset-0 flex items-center justify-center"
-                style={{
-                  backgroundColor: wipHovered ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.3)",
-                  transition: "background-color 0.25s ease",
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: "'Switzer', sans-serif",
-                    fontSize: "18px",
-                    fontWeight: 600,
-                    letterSpacing: "0.08em",
-                    color: "white",
-                    opacity: wipHovered ? 1 : 0,
-                    transition: "opacity 0.25s ease",
-                  }}
-                >
-                  WORK IN PROGRESS
-                </span>
-              </div>
-            )}
           </div>
         </div>
+
+        {/* WIP overlay — always visible when flipped */}
+        {wip && isFlipped && (
+          <div
+            className="absolute inset-0 flex items-center justify-center z-20"
+            style={{
+              backgroundColor: wipHovered ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.3)",
+              transition: "background-color 0.25s ease",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "'Switzer', sans-serif",
+                fontSize: "18px",
+                fontWeight: 600,
+                letterSpacing: "0.08em",
+                color: "white",
+                textAlign: "center",
+              }}
+            >
+              WORK IN PROGRESS
+            </span>
+          </div>
+        )}
       </div>
     );
   }
