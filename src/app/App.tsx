@@ -3,6 +3,7 @@ import { Sidebar } from "./components/Sidebar";
 import { ProjectCard } from "./components/ProjectCard";
 import { AboutPage } from "./components/AboutPage";
 import { ProjectDetailPage } from "./components/ProjectDetailPage";
+import { RipOffIntro } from "./components/splash";
 import { projects, Project } from "../content/projects";
 
 function seededRandom(seed: number) {
@@ -86,6 +87,7 @@ export default function App() {
   const [isMobile, setIsMobile] = useState(false);
   const [filterDropdownOpen, setFilterDropdownOpen] = useState(false);
   const [currentProject, setCurrentProject] = useState<Project | null>(null);
+  const [introComplete, setIntroComplete] = useState(false);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= 768);
@@ -134,6 +136,8 @@ export default function App() {
   }, [activeFilter, currentPage]);
 
   return (
+    <>
+    {!introComplete && <RipOffIntro onComplete={() => setIntroComplete(true)} />}
     <div
       className="size-full flex bg-white transition-opacity duration-[1500ms] ease-out"
       style={{
@@ -206,7 +210,7 @@ export default function App() {
                 }}
               >
                 <p className="mb-0">
-                  {`Eunje Heo is a designer based in Seoul & London, specialising in brand experience and user experience. Through her background of visual and technology, she creates distinctive experience for the project.`}
+                  {`Eunje Heo is a designer based in London, originally from Seoul, specialising in brand experience. Through her background of visual and interest in technology, she creates distinctive experience for the project.`}
                 </p>
                 <p style={{ marginTop: isMobile ? "20px" : "28px" }}>
                   If our sensibilities align, I'd love to be connected.
@@ -359,6 +363,7 @@ export default function App() {
                   tags={project.tags}
                   image={project.image}
                   award={project.award}
+                  wip={project.wip}
                   forceFlipped={allFlipped}
                   flipDelay={index * 50}
                   activeFilter={activeFilter}
@@ -436,6 +441,7 @@ export default function App() {
         )}
       </main>
     </div>
+    </>
   );
 }
 

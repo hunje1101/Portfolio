@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "mcp__Claude_in_Chrome__tabs_context_mcp"
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "mcp__e28d651f-b503-4caa-a62e-bc24d0360f9f__get_design_context",
+      "mcp__claude-in-chrome__tabs_context_mcp"
     ]
   }
 }
