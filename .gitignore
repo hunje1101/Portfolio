@@ -2,3 +2,4 @@ dist
 node_modules
 .DS_Store
 src/content/projects/09-Green Island/thumb.mp4
+src/content/projects/_*/
