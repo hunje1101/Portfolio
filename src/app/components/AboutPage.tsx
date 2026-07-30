@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const experiences = [
+  { year: "2026.05-07.", name: "Freelance Brand Designer at mannaldesignstudio", type: "mannaldesignstudio" },
   { year: "2025.08-12.", name: "2025 Hongik University Visual Communication Degree Show, Space Design", type: "Hongik Univ." },
   { year: "2025.03-08.", name: "LG Crew 5th - Laundry CX Research Team", type: "LG Electronics" },
   { year: "2024.07-08.", name: "Graphic Design Intern", type: "Studio Roam" },
@@ -51,14 +52,7 @@ function TableSection({ title, rows }: { title: string; rows: { year: string; na
             gridTemplateColumns: "80px 1.4fr 1fr",
             columnGap: "4px",
             borderBottom: "1px solid #e0e0e0",
-            transition: "background-color 0.15s ease",
           }}
-          onMouseEnter={(e) =>
-            (e.currentTarget.style.backgroundColor = "#f5f5f5")
-          }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.backgroundColor = "transparent")
-          }
         >
           <span
             style={{
