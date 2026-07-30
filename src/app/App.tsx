@@ -13,7 +13,54 @@ function seededRandom(seed: number) {
 
 type RowDef = { indices: number[]; widths: number[] };
 
+function buildRowWidths(indices: number[], projectList: Project[], rowSeed: number): number[] {
+  const hws = indices.map(i => projectList[i]?.home?.[1]);
+  if (indices.length === 1) return [1];
+  if (indices.length === 2) {
+    let split: number;
+    if (hws[0] != null) split = hws[0];
+    else if (hws[1] != null) split = 1 - hws[1];
+    else {
+      const hasAward0 = projectList[indices[0]]?.award;
+      const hasAward1 = projectList[indices[1]]?.award;
+      if (hasAward0 && !hasAward1) split = 0.55 + seededRandom(rowSeed + 77) * 0.05;
+      else if (!hasAward0 && hasAward1) split = 0.4 + seededRandom(rowSeed + 77) * 0.05;
+      else split = 0.4 + seededRandom(rowSeed + 77) * 0.2;
+    }
+    return [split, 1 - split];
+  }
+  if (hws.some(w => w != null)) {
+    const total = hws.reduce((s, w) => s + (w ?? 1 / indices.length), 0);
+    return hws.map(w => (w ?? 1 / indices.length) / total);
+  }
+  const awardPos = indices.findIndex(idx => projectList[idx]?.award);
+  const a = 0.25 + seededRandom(rowSeed + 88) * 0.2;
+  const b = 0.25 + seededRandom(rowSeed + 99) * 0.2;
+  const c = 1 - a - b;
+  const w = [a, b, c];
+  if (awardPos >= 0) {
+    const maxI = w.indexOf(Math.max(...w));
+    if (maxI !== awardPos) [w[maxI], w[awardPos]] = [w[awardPos], w[maxI]];
+  }
+  return w;
+}
+
 function buildHomeRows(projectList: Project[]): RowDef[] {
+  const hasExplicitRows = projectList.some(p => p.home != null);
+
+  if (hasExplicitRows) {
+    const groups = new Map<number, number[]>();
+    let autoKey = 10000;
+    projectList.forEach((p, i) => {
+      const key = p.home?.[0] ?? autoKey++;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key)!.push(i);
+    });
+    return [...groups.entries()]
+      .sort((a, b) => a[0] - b[0])
+      .map(([key, indices]) => ({ indices, widths: buildRowWidths(indices, projectList, key) }));
+  }
+
   const rows: RowDef[] = [];
   let i = 0;
   let rowSeed = 0;
@@ -23,37 +70,7 @@ function buildHomeRows(projectList: Project[]): RowDef[] {
     const cardsInRow = remaining === 1 ? 1 : remaining === 2 ? 2 : r < 0.5 ? 2 : 3;
     const indices: number[] = [];
     for (let j = 0; j < cardsInRow && i < projectList.length; j++, i++) indices.push(i);
-
-    const widths: number[] = [];
-    if (indices.length === 1) {
-      widths.push(1);
-    } else if (indices.length === 2) {
-      const hasAward0 = projectList[indices[0]]?.award;
-      const hasAward1 = projectList[indices[1]]?.award;
-      let split: number;
-      if (hasAward0 && !hasAward1) {
-        split = 0.55 + seededRandom(rowSeed + 77) * 0.05;
-      } else if (!hasAward0 && hasAward1) {
-        split = 0.4 + seededRandom(rowSeed + 77) * 0.05;
-      } else {
-        split = 0.4 + seededRandom(rowSeed + 77) * 0.2;
-      }
-      widths.push(split, 1 - split);
-    } else {
-      const awardPos = indices.findIndex((idx) => projectList[idx]?.award);
-      const a = 0.25 + seededRandom(rowSeed + 88) * 0.2;
-      const b = 0.25 + seededRandom(rowSeed + 99) * 0.2;
-      const c = 1 - a - b;
-      const w = [a, b, c];
-      if (awardPos >= 0) {
-        const maxI = w.indexOf(Math.max(...w));
-        if (maxI !== awardPos) {
-          [w[maxI], w[awardPos]] = [w[awardPos], w[maxI]];
-        }
-      }
-      widths.push(...w);
-    }
-    rows.push({ indices, widths });
+    rows.push({ indices, widths: buildRowWidths(indices, projectList, rowSeed) });
     rowSeed++;
   }
   return rows;
@@ -70,7 +87,14 @@ const filterCategories = [
   { label: "Package", matchTags: ["Package", "Package Design"] },
   { label: "Space", matchTags: ["Space", "Space Design"] },
   { label: "Web", matchTags: ["Web Design", "Web"] },
+  { label: "★", matchTags: ["★"] },
 ];
+
+const StarIcon = ({ height = 16 }: { height?: number }) => (
+  <svg width={height * 48 / 28} height={height} viewBox="0 0 48 28" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.1407 3.00855C22.483 -1.40327 27.5388 -0.714564 27.7042 3.64917C29.8441 1.16428 33.548 1.94557 33.6124 5.22241C33.6692 8.06668 31.322 10.3041 28.9278 11.7039C30.9018 10.9481 33.085 10.4912 34.9503 11.0583C39.3631 12.3986 38.6584 17.4996 34.2891 17.6794C36.7701 19.8299 35.977 23.5665 32.6964 23.6414C29.8429 23.7075 27.6063 21.338 26.213 18.9226C26.969 20.9066 27.4298 23.1096 26.8565 24.9919C25.5142 29.4037 20.4575 28.715 20.2921 24.3513C18.1521 26.8357 14.4493 26.0547 14.3848 22.7781C14.3277 19.9188 16.6992 17.6714 19.1065 16.2732C17.1235 17.0369 14.926 17.5038 13.0499 16.9333C8.63711 15.5931 9.34184 10.4922 13.711 10.3123C11.2299 8.16178 12.0231 4.42422 15.3038 4.34937C18.1452 4.28355 20.374 6.63406 21.7686 9.03882C21.0215 7.06504 20.5712 4.87854 21.1407 3.00855ZM23.0098 11.7488C23.0655 11.9132 23.1162 12.0719 23.1602 12.2244C23.2312 12.4745 23.6199 13.7585 23.5762 13.9099C23.5389 14.0429 22.8976 14.4097 22.6036 14.5789C22.3303 14.736 22.0363 14.898 21.7266 15.0632C21.8962 15.0047 22.06 14.9521 22.2169 14.906C22.4649 14.8344 23.6242 14.4025 23.7755 14.4451C23.9072 14.4817 24.383 15.1615 24.5499 15.4548C24.6966 15.7128 24.848 15.9893 25.002 16.28C24.9413 16.1025 24.8873 15.9311 24.8399 15.7673C24.769 15.5174 24.3399 14.3499 24.3829 14.197C24.4199 14.0641 25.1024 13.582 25.3966 13.4128C25.658 13.2625 25.9376 13.1059 26.2325 12.948C26.0762 13.0014 25.9256 13.0518 25.7803 13.0945C25.5321 13.1661 24.3708 13.5986 24.2208 13.5554C24.0885 13.5176 23.6142 12.8388 23.4473 12.5457C23.3053 12.2961 23.1588 12.0291 23.0098 11.7488Z" />
+  </svg>
+);
 
 const fontBase: React.CSSProperties = {
   fontFamily: "'Switzer', sans-serif",
@@ -150,8 +174,10 @@ export default function App() {
   const filteredProjects = useMemo(() => {
     const pool = currentPage === "All Projects"
       ? projects
-      : projects.filter((p) => !p.hidden);
-    if (activeFilter === "All") return pool;
+      : activeFilter === "★"
+        ? projects
+        : projects.filter((p) => !p.hidden);
+    if (activeFilter === "All") return pool.filter((p) => !p.tags.includes("★"));
     const category = filterCategories.find((c) => c.label === activeFilter);
     if (!category) return pool;
     return pool.filter((p) =>
@@ -355,7 +381,7 @@ export default function App() {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {cat.label}
+                      {cat.label === "★" ? <StarIcon /> : cat.label}
                     </button>
                   );
                 })}
@@ -393,7 +419,7 @@ export default function App() {
                   flipDelay={index * 50}
                   activeFilter={activeFilter}
                   isMobile={true}
-                  onProjectClick={(project.wip || project.hidden) ? undefined : () => navigateTo(currentPage, project)}
+                  onProjectClick={(project.wip || project.hidden || project.tags.includes("★")) ? undefined : () => navigateTo(currentPage, project)}
                   keyColor={project.keyColor}
                 />
               ))}
@@ -444,7 +470,7 @@ export default function App() {
                           flipDelay={index * 120}
                           activeFilter={activeFilter}
                           isMobile={false}
-                          onProjectClick={(project.wip || project.hidden) ? undefined : () => navigateTo(currentPage, project)}
+                          onProjectClick={(project.wip || project.hidden || project.tags.includes("★")) ? undefined : () => navigateTo(currentPage, project)}
                           keyColor={project.keyColor}
                         />
                         <div style={{ paddingTop: "10px", paddingBottom: "12px" }}>

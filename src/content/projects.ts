@@ -25,7 +25,10 @@
 //      If layout is omitted, photos are stacked one per row automatically.
 //   6. To hide a project from the home grid (accessible via "more" toggle):
 //        "hidden": true
-//   7. Save. Vite will auto-detect and render everything.
+//   7. To control Home grid layout (row grouping + width ratio):
+//        "home": [1, 0.6]          ← row 1, takes 60% width
+//      Same row number = same row. Width is ratio within that row.
+//   8. Save. Vite will auto-detect and render everything.
 // ─────────────────────────────────────────────────────────────
 
 export type Project = {
@@ -62,6 +65,8 @@ export type Project = {
   links?: string[];
   /** Key color hex for card flip face, e.g. "#00F6AC" */
   keyColor?: string;
+  /** Home grid layout: [rowNumber, widthRatio]. e.g. [1, 0.6] = row 1, 60% width */
+  home?: [number, number];
   /**
    * Detail page image layout.
    * Each array = one row. Images in the same row share equal width.

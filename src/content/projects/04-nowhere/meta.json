@@ -1,0 +1,27 @@
+{
+  "projectName": "Nowhere yet Everywhere",
+  "year": "2026",
+  "type": "self-initiated",
+  "tags": [
+    "Graphic",
+    "Editorial"
+  ],
+  "keyColor": "#272335",
+   "home": [2, 0.4],
+  "hidden": false,
+  "overview_en": "-",
+  "overview_kr": "-",
+  "scope": "Graphic Design, Editorial Design",
+  "collaborators": ["personal project"],
+  "layout": [
+    ["2.png"],
+    ["3.png"],
+    ["3-2.png"],
+    ["4.png"],
+    ["5.png"],
+    ["8-2.png"],
+    ["10.png"],
+    ["14.png", "15.png"]
+  ]
+  
+}

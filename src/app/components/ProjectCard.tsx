@@ -63,6 +63,7 @@ const filterTagMap: Record<string, string[]> = {
   "Interface": ["Interface"],
   "Package": ["Package"],
   "Web": ["Web"],
+  "★": ["★"]
 };
 
 interface Particle {

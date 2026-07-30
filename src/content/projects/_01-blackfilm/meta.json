@@ -8,12 +8,14 @@
     "Interface",
     "Web"
   ],
+  
   "keyColor": "#85422B",
   "hidden": true,
+  "wip": false,
   "overview_en": "-",
   "overview_kr": "-",
-  "scope": "Brand Design, User Interface Design",
-  "team": ["Freelance Designer in Mannal Studio"],
-  "collaborators": ["Art Directior: Yeonjin Lee (Mannal Studio) \nDesign: Eunje Heo, Hyeonsol Kim \nPhoto:Sol Studio, \n*generated Ai used"],
+  "scope": "Brand Design, Web Design",
+  "collaborators": ["Art Directior: Yeonjin Lee (Mannal Studio) \nDesign: Eunje Heo, Hyeonsol Kim \n*generated Ai used"],
   "layout": []
 }
+
