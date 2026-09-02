@@ -1,5 +1,5 @@
 {
-  "projectName": "Nowhere yet Everywhere",
+  "projectName": "Nowhere yet Everywhere Zine",
   "year": "2026",
   "type": "self-initiated",
   "tags": [
@@ -9,19 +9,20 @@
   "keyColor": "#272335",
    "home": [2, 0.4],
   "hidden": false,
-  "wip": true,
-  "overview_en": "-",
-  "overview_kr": "-",
+  "wip": false,
+  "overview_en":"**About Nowhere yet Everywhere**\n Tracing the Paths of the Diaspora.\n《Nowhere yet Everywhere》 is a bilingual zine series that observes the lives of the diaspora through the metaphorical lens of a bird crossing national and cultural borders. This first issue, The Borderline, features an interview with J, exploring the struggles of adapting to a reality in Vietnam and the alienation felt upon returning to her homeland, South Korea, which has become unfamiliar.\n\n**Concept**\n Birds symbolise the freedom to cross borders in search of home, much like the diaspora. By adopting the bird's-view including spatial distance of high-altitude observation and ultraviolet vision, this zine shifts between a detached, objective observation of the diaspora’s societal presence and a close-up, subjective immersion into their intimate stories.",
+  "overview_kr":"**About Nowhere yet Everywhere**\n 디아스포라의 궤적을 좇아서. 《Nowhere yet Everywhere》는 국가와 문화적 경계를 넘나드는 새의 은유적 시선을 빌려 디아스포라의 삶을 관찰하는 이중언어 독립출판(Zine) 시리즈다. 그 첫 번째 권인 〈The Borderline〉은 인터뷰이 J의 목소리를 통해, 베트남이라는 현실에 적응해 가는 과정에서의 균열과 다시 낯설어진 모국 한국으로 돌아왔을 때 마주한 소외의 감각을 면밀히 짚어낸다.",
   "scope": "Graphic Design, Editorial Design",
   "collaborators": ["personal project"],
   "layout": [
-    ["2.png"],
-    ["3.png"],
-    ["3-2.png"],
-    ["4.png"],
-    ["5.png"],
-    ["8-2.png"],
-    ["10.png"],
+    ["0-1.jpg"],
+    ["2-1.jpg"],
+    ["1-1.jpg"],
+    ["3-1.jpg"],
+    ["4-1.jpg"],
+    ["5-1.jpg"],
+    ["6-1.jpg"],
+    ["7-1.jpg"],
     ["14.png", "15.png"]
   ]
   

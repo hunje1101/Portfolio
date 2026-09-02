@@ -10,7 +10,7 @@ const TOOTH_H = 5.21;
 const GAP = 24.89;
 const WIDEN_AMOUNT = 120;
 const INTRO_TEXT =
-  "Eunje Heo is a designer based in London, specialising in brand experience and investigating the relationship between people and sense of place.";
+  "Eunje Heo is a designer based in London, specialising in brand experience and visual design";
 
 const TEXT_STYLE: React.CSSProperties = {
   fontFamily: "'Switzer', sans-serif",

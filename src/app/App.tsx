@@ -267,7 +267,7 @@ export default function App() {
                 }}
               >
                 <p className="mb-0">
-                  {`Eunje Heo is a designer based in London, originally from Seoul, specialising in brand experience. Through her background of visual and interest in technology, she creates distinctive experience for the project.`}
+                  {`Eunje Heo is a designer based in London, originally from Seoul, specialising in brand experience. With a multidisciplinary approach spanning identity, interface, packaging, and space, she shapes cohesive brand experiences across every touchpoint.`}
                 </p>
                 <p style={{ marginTop: isMobile ? "20px" : "28px" }}>
                   If our sensibilities align, I'd love to be connected.
@@ -387,7 +387,7 @@ export default function App() {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {cat.label === "★" ? <StarIconDesktop /> : cat.label}
+                      {cat.label === "★" ? "☺" : cat.label}
                     </button>
                   );
                 })}
