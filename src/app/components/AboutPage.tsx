@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const experiences = [
-  { year: "2026.05-07.", name: "Freelance Brand Designer at mannaldesignstudio", type: "mannaldesignstudio" },
+  { year: "2026.05-07.", name: "Freelance Brand Designer", type: "mannaldesignstudio" },
   { year: "2025.08-12.", name: "2025 Hongik University Visual Communication Degree Show, Space Design", type: "Hongik Univ." },
   { year: "2025.03-08.", name: "LG Crew 5th - Laundry CX Research Team", type: "LG Electronics" },
   { year: "2024.07-08.", name: "Graphic Design Intern", type: "Studio Roam" },
