@@ -301,7 +301,7 @@ export default function App() {
                     color: "black",
                   }}
                 >
-                  {activeFilter === "★" ? <StarIconMobile /> : activeFilter}
+                  {activeFilter === "★" ? "☺" : activeFilter}
                 </span>
                 <span
                   style={{
@@ -349,7 +349,7 @@ export default function App() {
                           transition: "color 0.2s ease",
                         }}
                       >
-                        {cat.label === "★" ? <StarIconMobile /> : cat.label}
+                        {cat.label === "★" ? "☺" : cat.label}
                       </button>
                     );
                   })}
